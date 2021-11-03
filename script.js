@@ -17,7 +17,7 @@
 
 // Chiedo all'utente il livello di difficoltà che vuole.
 
-let chosenDiff = parseInt(prompt("Scegli la difficoltà: da 1(facile) a 3(difficile"));
+let chosenDiff = parseInt(prompt("Scegli la difficoltà: da 1(facile) a 3(difficile)"));
 console.log("Difficoltà: ", chosenDiff);
 let insertDiff = document.querySelector(".player_difficulty");
 insertDiff.append(chosenDiff);
@@ -70,13 +70,15 @@ for (i = 0; i < numberOfSquares; i++) {
         addClass (newSquare, "easy");
     }
 
-    let playerScore = parseInt(0);
+    let id = parseInt(newSquare.id);
+    let playerScore = 0;
     let insertScore = document.querySelector(".player_score");
     // Al click, il quadratino cambierà colore e mostrerà il numero nascosto
     
+
+
     newSquare.addEventListener("click",
     function() {
-        let id = parseInt(newSquare.id);
         addClass (newSquare, "active");
         console.log("bombe: ", bombs)
         console.log("id cliccato: ", id)
@@ -89,7 +91,9 @@ for (i = 0; i < numberOfSquares; i++) {
             clickedNumbers.push(id);
             playerScore = clickedNumbers.length;
             insertScore.innerHTML = (`Punteggio: ${playerScore}`);
-            console.log(clickedNumbers);
+            console.log("Numeri cliccati: ", clickedNumbers);
+        } if (playerScore >= numberOfSquares - bombs.length) {
+            insertScore.innerHTML = "Hai Vinto!";
         }
     }
     )
