@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(25, 25, 125);
+}
+
+.container {
+    width: 50%;
+    margin: 100px auto;
+    border: 1px solid white;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    aspect-ratio: 1;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square.easy {
+    width: calc(100% / 10);
+}
+
+.square.medium {
+    width: calc(100% / 9);
+}
+
+.square.hard {
+    width: calc(100% / 7);
+}
+
+.square span {
+    display: none;
+}
+
+.square.active {
+    background-color: white;
+}
+
+.square.active span {
+    display: block;
+}
