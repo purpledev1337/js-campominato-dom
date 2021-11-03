@@ -17,8 +17,10 @@
 
 // Chiedo all'utente il livello di difficoltà che vuole.
 
-let chosenDiff = parseInt(prompt("Scegli la difficoltà: da 1 a 3"));
+let chosenDiff = parseInt(prompt("Scegli la difficoltà: da 1(facile) a 3(difficile"));
 console.log("Difficoltà: ", chosenDiff);
+let insertDiff = document.querySelector(".player_difficulty");
+insertDiff.append(chosenDiff);
 
 let numberOfSquares;
 // Se la difficoltà è 1(facile) genero 100 quadratini (10 per riga)
@@ -38,7 +40,16 @@ if (chosenDiff === 1) {
     // Faccio generare al computer 16 numeri casuali con la condizione che non ci siano doppioni:
     // Se la difficoltà è 1 (da 1 a 100) - Se la difficoltà è 2 (da 1 a 81) - Se la difficoltà è 3 (da 1 a 49)
 
+const bombs = [];
+while (bombs.length < 16) {
+    const randomNumber = Math.floor(Math.random() * numberOfSquares) + 1;
+    if (!bombs.includes(randomNumber)) {
+        bombs.push(randomNumber);
+    }
+}
+console.log("Le bombe estratte sono i numeri:", bombs)
 
+let clickedNumbers = [];
 
 // Genero una griglia di gioco in base alla difficoltà scelta
 // Quando genererò i quadratini all'interno avranno un numero progressivo nascosto
@@ -48,6 +59,8 @@ for (i = 0; i < numberOfSquares; i++) {
     let newSquare;
     newSquare = createElement("div", "square");
     newSquare.innerHTML = `<span>${i + 1}</span>`;
+    newSquare.setAttribute ("id", i + 1);
+    // newSquare.append(i + 1);
     
     if (numberOfSquares == 49) {
         addClass (newSquare, "hard");
@@ -56,16 +69,30 @@ for (i = 0; i < numberOfSquares; i++) {
     } if (numberOfSquares == 100) {
         addClass (newSquare, "easy");
     }
+
+    let playerScore = parseInt(0);
+    let insertScore = document.querySelector(".player_score");
     // Al click, il quadratino cambierà colore e mostrerà il numero nascosto
-    // 2 - se il numero è presente nella lista dei numeri casuali generati la cella si colora di rosso e la partita termina.
-    // 2 - sennò il punteggio del giocatore aumenterà di 1 ed il gioco continuerà.
     
     newSquare.addEventListener("click",
     function() {
+        let id = parseInt(newSquare.id);
         addClass (newSquare, "active");
+        console.log("bombe: ", bombs)
+        console.log("id cliccato: ", id)
+        // 2 - se il numero è presente nella lista dei numeri casuali generati la cella si colora di rosso e la partita termina.
+        if (bombs.includes(id)) {
+            addClass (newSquare, "bomb");
+            insertScore.innerHTML = "Hai Perso!";
+            // 2 - sennò il punteggio del giocatore aumenterà di 1 ed il gioco continuerà.
+        } else if (!clickedNumbers.includes(id)) {
+            clickedNumbers.push(id);
+            playerScore = parseInt(playerScore + 1);
+            insertScore.append(playerScore);
+            console.log(clickedNumbers);
+        }
     }
     )
-    
     gridContainer.appendChild(newSquare);
 }
 
