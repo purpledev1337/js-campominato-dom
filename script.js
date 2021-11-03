@@ -87,8 +87,8 @@ for (i = 0; i < numberOfSquares; i++) {
             // 2 - sennò il punteggio del giocatore aumenterà di 1 ed il gioco continuerà.
         } else if (!clickedNumbers.includes(id)) {
             clickedNumbers.push(id);
-            playerScore = parseInt(playerScore + 1);
-            insertScore.append(playerScore);
+            playerScore = clickedNumbers.length;
+            insertScore.innerHTML = (`Punteggio: ${playerScore}`);
             console.log(clickedNumbers);
         }
     }
