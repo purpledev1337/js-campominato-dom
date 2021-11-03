@@ -37,8 +37,8 @@ if (chosenDiff === 1) {
     console.log("Numero di quadratini:", numberOfSquares);
 };
 // 2 - Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
-    // Faccio generare al computer 16 numeri casuali con la condizione che non ci siano doppioni:
-    // Se la difficoltà è 1 (da 1 a 100) - Se la difficoltà è 2 (da 1 a 81) - Se la difficoltà è 3 (da 1 a 49)
+// Faccio generare al computer 16 numeri casuali con la condizione che non ci siano doppioni:
+// Se la difficoltà è 1 (da 1 a 100) - Se la difficoltà è 2 (da 1 a 81) - Se la difficoltà è 3 (da 1 a 49)
 
 const bombs = [];
 while (bombs.length < 16) {
@@ -50,6 +50,7 @@ while (bombs.length < 16) {
 console.log("Le bombe estratte sono i numeri:", bombs)
 
 let clickedNumbers = [];
+let finalResult;
 
 // Genero una griglia di gioco in base alla difficoltà scelta
 // Quando genererò i quadratini all'interno avranno un numero progressivo nascosto
@@ -60,7 +61,6 @@ for (i = 0; i < numberOfSquares; i++) {
     newSquare = createElement("div", "square");
     newSquare.innerHTML = `<span>${i + 1}</span>`;
     newSquare.setAttribute ("id", i + 1);
-    // newSquare.append(i + 1);
     
     if (numberOfSquares == 49) {
         addClass (newSquare, "hard");
@@ -71,37 +71,45 @@ for (i = 0; i < numberOfSquares; i++) {
     }
 
     let id = parseInt(newSquare.id);
-    let playerScore = 0;
     let insertScore = document.querySelector(".player_score");
     // Al click, il quadratino cambierà colore e mostrerà il numero nascosto
     
-
-
-    newSquare.addEventListener("click",
-    function() {
+    // while (bombs.includes(id) || playerScore >= numberOfSquares - bombs.length) {
+        //     newSquare.classList = newSquare.classList + "bomb";
+        // };
+        
+        newSquare.addEventListener("click",
+        function() {
+        let playerScore;
+        playerScore = clickedNumbers.length + 1;
+        if (finalResult !== "win" && finalResult !== "lost")
         addClass (newSquare, "active");
         console.log("bombe: ", bombs)
         console.log("id cliccato: ", id)
+
         // 2 - se il numero è presente nella lista dei numeri casuali generati la cella si colora di rosso e la partita termina.
         if (bombs.includes(id)) {
             addClass (newSquare, "bomb");
-            insertScore.innerHTML = "Hai Perso!";
+            insertScore.innerHTML = (`Hai Perso!<br>Punteggio raggiunto: ${playerScore}`);
+            finalResult = "lost";
+            
             // 2 - sennò il punteggio del giocatore aumenterà di 1 ed il gioco continuerà.
-        } else if (!clickedNumbers.includes(id)) {
+        } else if (!clickedNumbers.includes(id) && finalResult !== "win" && finalResult !== "lost") {
             clickedNumbers.push(id);
-            playerScore = clickedNumbers.length;
             insertScore.innerHTML = (`Punteggio: ${playerScore}`);
             console.log("Numeri cliccati: ", clickedNumbers);
+            // Se il punteggio del giocatore è uguale a (numero di quadratini generati - 16 bombe) -> il giocatore vince e tutte le bombe si colorano di rosso.
         } if (playerScore >= numberOfSquares - bombs.length) {
             insertScore.innerHTML = "Hai Vinto!";
+            finalResult = "win";
         }
     }
     )
     gridContainer.appendChild(newSquare);
 }
 
+
 // 2 - Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha cliccato un quadratino con un numero consentito.
-    // Se il punteggio del giocatore è uguale a (numero di quadratini generati - 16 bombe) -> il giocatore vince e tutte le bombe si colorano di rosso.
 
 
 
