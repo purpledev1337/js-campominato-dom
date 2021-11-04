@@ -74,35 +74,39 @@ for (i = 0; i < numberOfSquares; i++) {
     let insertScore = document.querySelector(".player_score");
     // Al click, il quadratino cambierà colore e mostrerà il numero nascosto
     
-    // while (bombs.includes(id) || playerScore >= numberOfSquares - bombs.length) {
-        //     newSquare.classList = newSquare.classList + "bomb";
-        // };
-        
-        newSquare.addEventListener("click",
-        function() {
+    newSquare.addEventListener("click",
+    function() {
         let playerScore;
-        playerScore = clickedNumbers.length + 1;
+
         if (finalResult !== "win" && finalResult !== "lost")
         addClass (newSquare, "active");
         console.log("bombe: ", bombs)
         console.log("id cliccato: ", id)
-
+        
         // 2 - se il numero è presente nella lista dei numeri casuali generati la cella si colora di rosso e la partita termina.
         if (bombs.includes(id)) {
             addClass (newSquare, "bomb");
+            playerScore = clickedNumbers.length;
             insertScore.innerHTML = (`Hai Perso!<br>Punteggio raggiunto: ${playerScore}`);
             finalResult = "lost";
+            for (let j = 0; j < bombs.length; j++) {
+                let allBombs = document.getElementById(bombs[j])
+                addClass (allBombs, "active");
+                addClass (allBombs, "bomb");
+                console.log(allBombs);
+            }
             
             // 2 - sennò il punteggio del giocatore aumenterà di 1 ed il gioco continuerà.
-        } else if (!clickedNumbers.includes(id) && finalResult !== "win" && finalResult !== "lost") {
+        } if (!clickedNumbers.includes(id) && finalResult !== "win" && finalResult !== "lost") {
             clickedNumbers.push(id);
+            playerScore = clickedNumbers.length;
             insertScore.innerHTML = (`Punteggio: ${playerScore}`);
-            console.log("Numeri cliccati: ", clickedNumbers);
-            // Se il punteggio del giocatore è uguale a (numero di quadratini generati - 16 bombe) -> il giocatore vince e tutte le bombe si colorano di rosso.
-        } if (playerScore >= numberOfSquares - bombs.length) {
-            insertScore.innerHTML = "Hai Vinto!";
-            finalResult = "win";
-        }
+        console.log("Numeri cliccati: ", clickedNumbers);
+        // Se il punteggio del giocatore è uguale a (numero di quadratini generati - 16 bombe) -> il giocatore vince e tutte le bombe si colorano di rosso.
+    } if (playerScore >= numberOfSquares - bombs.length) {
+        insertScore.innerHTML = "Hai Vinto!";
+        finalResult = "win";
+    }
     }
     )
     gridContainer.appendChild(newSquare);
